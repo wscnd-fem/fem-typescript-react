@@ -1,25 +1,32 @@
 import * as React from 'react';
 
 import { ColorSwatch } from './ColorSwatch';
-import { ColorInputs } from './ColorInputs';
-import { ColorSliders } from './ColorSliders';
 
 import { toRGB } from './utilities';
-import { reducer } from './reducer';
+import { ThemeContext } from './theme-context';
+import { RGBContext } from './context';
+import { ColorAdjustment } from './ColorAdjustment';
+import { ColorInput } from './ColorInput';
+import { ColorSlider } from './ColorSlider';
 
 const Application = () => {
-  const [rgb, dispatch] = React.useReducer(reducer, {
-    red: 0,
-    green: 0,
-    blue: 0
-  });
+  const themes = React.useContext(ThemeContext);
+  const { red, green, blue } = React.useContext(RGBContext);
+
+  const rgb = {
+    red,
+    green,
+    blue
+  };
 
   return (
-    <main style={{ borderColor: toRGB(rgb) }}>
-      <ColorSwatch {...rgb} />
-      <ColorInputs {...rgb} />
-      <ColorSliders {...rgb} dispatch={dispatch} />
-    </main>
+    <>
+      <main style={{ borderColor: toRGB(rgb), ...themes.dark }}>
+        <ColorSwatch />
+        <ColorAdjustment Adjustment={ColorInput} />
+        <ColorAdjustment Adjustment={ColorSlider} />
+      </main>
+    </>
   );
 };
 

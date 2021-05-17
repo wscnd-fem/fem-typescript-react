@@ -1,13 +1,20 @@
-import { ColorSlider } from './ColorSlider';
-import { AdjustmentAction } from './reducer';
-import { RGBColorType } from './types';
+import React from 'react';
+import { RGBContext } from './context';
 
-export const ColorSliders = ({
-  red,
-  green,
-  blue,
-  dispatch
-}: RGBColorType & { dispatch: React.Dispatch<AdjustmentAction> }) => {
+export type AdjustmentInputProps = {
+  id: string;
+  label: string;
+  value: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export interface ColorAdjustmentProps {
+  Adjustment: React.FunctionComponent<AdjustmentInputProps>;
+}
+
+export const ColorAdjustment = ({ Adjustment }: ColorAdjustmentProps) => {
+  const { dispatch, blue, green, red } = React.useContext(RGBContext);
+
   const adjustRed = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'ADJUST_RED', payload: event.target.valueAsNumber });
   };
@@ -22,19 +29,19 @@ export const ColorSliders = ({
 
   return (
     <section className="color-sliders">
-      <ColorSlider
+      <Adjustment
         id="red-slider"
         label="Red"
         value={red}
         onChange={adjustRed}
       />
-      <ColorSlider
+      <Adjustment
         id="green-slider"
         label="Green"
         value={green}
         onChange={adjustGreen}
       />
-      <ColorSlider
+      <Adjustment
         id="blue-slider"
         label="Blue"
         value={blue}

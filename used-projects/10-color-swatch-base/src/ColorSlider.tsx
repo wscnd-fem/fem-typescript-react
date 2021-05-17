@@ -1,13 +1,11 @@
-import { AdjustmentAction } from './reducer';
+import { AdjustmentInputProps } from './ColorAdjustment';
 
-export interface ColorInputProps {
-  id: string;
-  label: string;
-  value: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export const ColorSlider = ({ id, label, value , onChange}: ColorInputProps) => {
+export const ColorSlider: React.FunctionComponent<AdjustmentInputProps> = ({
+  id,
+  label,
+  value,
+  onChange
+}) => {
   return (
     <div className="color-slider">
       <label htmlFor={id}>{label}</label>
